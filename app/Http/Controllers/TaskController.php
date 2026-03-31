@@ -29,14 +29,15 @@ class TaskController extends Controller
     public function updateTask(Request $request, string $id)
     {
         $validated = $request->validate(TaskController::VALID_RULE);
-        $task = Task::find($id)->update($validated);
-        return response()->json(null,$task ? 200 : 404);
+        $task = Task::find($id);
+        $task?->update($validated);
+        return response()->json($task, $task ? 200 : 404);
     }
 
     public function deleteTask(string $id)
     {
         $task = Task::destroy($id);
-        return response()->json(null,$task>0 ? 200 : 404);
+        return response()->json(null, $task>0 ? 204 : 404);
     }
 
 }
