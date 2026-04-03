@@ -4,5 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-//    dd(App\Models\Task::factory()->make());
 });
+
+Route::get('/generate', fn () => App\Models\Task::factory()->create());
