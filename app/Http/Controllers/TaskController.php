@@ -2,20 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskStoreRequest;
 use App\Models\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
-    CONST VALID_RULE = [
-        'title' => 'required|string|max:50',
-        'description' => 'nullable|string',
-        'status' => 'nullable|string|max:30',
-    ];
-
-    public function createTask(Request $request)
+    public function createTask(TaskStoreRequest $request)
     {
-        $validated = $request->validate(TaskController::VALID_RULE);
+        $validated = $request->validated();
         $task = Task::create($validated);
         return response()->json($task, $task ? 201 : 422);
     }
@@ -26,9 +21,9 @@ class TaskController extends Controller
         return response()->json($task, $task ? 200 : 204);
     }
 
-    public function updateTask(Request $request, string $id)
+    public function updateTask(TaskStoreRequest $request, string $id)
     {
-        $validated = $request->validate(TaskController::VALID_RULE);
+        $validated = $request->validated();
         $task = Task::find($id);
         $task?->update($validated);
         return response()->json($task, $task ? 200 : 404);
